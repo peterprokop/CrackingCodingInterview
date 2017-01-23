@@ -109,21 +109,101 @@ void testListLoop() {
     printf("Loop start: %i\n", findLoopStart(&a) -> val);
 }
 
+int fibonacci(int n) {
+    if (n <= 2) {
+        return 1;
+    }
+    
+    return fibonacci(n-1) + fibonacci(n-2);
+}
+
+int coinCombinations(int amount) {
+    int combinations = 0;
+    
+    if (amount >= 25) {
+        combinations += coinCombinations(amount - 25);
+    }
+    
+    if (amount >= 10) {
+        combinations += coinCombinations(amount - 10);
+    }
+    
+    if (amount >= 5) {
+        combinations += coinCombinations(amount - 5);
+    }
+    
+    if (amount >= 1) {
+        combinations += coinCombinations(amount - 1);
+    }
+    
+    if (amount == 0) {
+        return 1;
+    }
+    
+    return combinations;
+}
+
+
+void shift(int* A, int index, int totalSize) {
+    int currentIndex = totalSize- 1;
+    
+    while ( currentIndex > index) {
+        A[currentIndex] = A[currentIndex - 1];
+        currentIndex--;
+    }
+}
+
+void mergeSorted (int* A, int* B, int sizeA, int sizeB, int totalSizeA) {
+    int indexA = 0;
+    int indexB = 0;
+    
+    while ( indexA != sizeA + sizeB
+           && indexB != sizeB)
+    {
+        if ( A[indexA] > B[indexB] ) {
+            shift(A, indexA, totalSizeA);
+            A[indexA] = B[indexB];
+            indexA++;
+            indexB++;
+        } else {
+            indexA++;
+        }
+    }
+    
+    
+}
+
+void testMergeSorted() {
+    int A[20] = {1, 3, 5, 7, 8, 10, 12, 14, 16, 18};
+    int B[7] = {1, 2, 3, 4, 5, 6, 7};
+    
+    mergeSorted(A, B, 10, 7, 20);
+    
+    printf("test");
+}
+
 int main(int argc, const char * argv[]) {
     
 //    reverseString("123");
 //    reverseString("");
     
-    Node c = Node{3, nullptr};
-    Node b = Node{2, &c};
-    Node a = Node{1, &b};
+//    Node c = Node{3, nullptr};
+//    Node b = Node{2, &c};
+//    Node a = Node{1, &b};
     
     //removeMiddleNode(&b);
     
     //printList(&a);
     
-    testListLoop();
+//    testListLoop();
+    
+//    printf("fib: %d\n", fibonacci(10));
+    
+//    printf("combinations: %d\n", coinCombinations(1));
+//    printf("combinations: %d\n", coinCombinations(5));
+//    printf("combinations: %d\n", coinCombinations(10));
+    
+    testMergeSorted();
     
     return 0;
 }
-
